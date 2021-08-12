@@ -1,9 +1,9 @@
-const Chance = require('chance');
+import Chance from 'chance';
+import pkg from 'lodash';
+import { keyInSelect, keyInYN } from 'readline-sync';
 
+const { capitalize } = pkg;
 const chance = new Chance();
-
-const readLine = require('readline-sync');
-const _ = require('lodash');
 
 // Could also be a Set...,
 const throwTypes = ['rock', 'paper', 'scissors', 'lizard', 'spock'];
@@ -25,20 +25,20 @@ console.log(`Let's play best of ${BEST_OF}.`);
 
 // eslint-disable-next-line no-constant-condition
 while (true) {
-  const playerChoice = throwTypes[readLine.keyInSelect(throwTypes.map(_.capitalize),
+  const playerChoice = throwTypes[keyInSelect(throwTypes.map(capitalize),
     'Choose: ', { cancel: false })];
 
   const opponentChoice = chance.pickone(throwTypes);
 
-  console.log(`You chose ${_.capitalize(playerChoice)} and I chose ${_.capitalize(opponentChoice)}.`);
+  console.log(`You chose ${capitalize(playerChoice)} and I chose ${capitalize(opponentChoice)}.`);
 
   if (playerChoice === opponentChoice) {
     console.log('This round is a draw!');
   } else if (winMapping[playerChoice].includes(opponentChoice)) {
-    console.log(`${_.capitalize(playerChoice)} beats ${_.capitalize(opponentChoice)}, you win this round!`);
+    console.log(`${capitalize(playerChoice)} beats ${capitalize(opponentChoice)}, you win this round!`);
     playerScore++;
   } else {
-    console.log(`${_.capitalize(opponentChoice)} beats ${_.capitalize(playerChoice)}, you lose this round!`);
+    console.log(`${capitalize(opponentChoice)} beats ${capitalize(playerChoice)}, you lose this round!`);
     opponentScore++;
   }
 
@@ -51,7 +51,7 @@ while (true) {
       console.log('YOU LOSE THE GAME, BETTER LUCK NEXT TIME!');
     }
 
-    if (readLine.keyInYN('Play again?')) {
+    if (keyInYN('Play again?')) {
       console.log(`Let's play again, best of ${BEST_OF}.`);
       playerScore = 0;
       opponentScore = 0;
